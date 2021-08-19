@@ -8,8 +8,6 @@ data:
   POSTGRESS_DB: udagramruttnerdev
   POSTGRESS_HOST: udagramruttnerdev.ckaigz7a9vqg.us-east-1.rds.amazonaws.com
   URL: http://localhost:8100
-  POSTGRESS_USERNAME: postgres
-  POSTGRESS_PASSWORD: udagramruttnerdev
 metadata:
   name: env-config
 
