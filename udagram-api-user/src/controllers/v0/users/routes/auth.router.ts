@@ -55,6 +55,7 @@ router.get('/verification',
 router.post('/login', async (req: Request, res: Response) => {
   const email = req.body.email;
   const password = req.body.password;
+  console.log(`${email} requested login`)
 
   if (!email || !EmailValidator.validate(email)) {
     return res.status(400).send({auth: false, message: 'Email is required or malformed.'});
@@ -74,7 +75,7 @@ router.post('/login', async (req: Request, res: Response) => {
   if (!authValid) {
     return res.status(401).send({auth: false, message: 'Password was invalid.'});
   }
-
+  console.log(`${email} logged in successfully`)
   const jwt = generateJWT(user);
   res.status(200).send({auth: true, token: jwt, user: user.short()});
 });
