@@ -5,7 +5,7 @@ metadata:
   labels:
     app: backend-user
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: backend-user
@@ -20,17 +20,32 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "250m"
+              memory: "256Mi"
+              cpu: "500m"
             limits:
               memory: "1024Mi"
-              cpu: "500m"
+              cpu: "768m"
           env:
             - name: URL
               valueFrom:
                 configMapKeyRef:
                   name: env-config
                   key: URL
+            - name: AWS_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: AWS_BUCKET
+            - name: AWS_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: AWS_PROFILE
+            - name: AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: AWS_REGION
             - name: JWT_SECRET
               valueFrom:
                 configMapKeyRef:
@@ -48,12 +63,16 @@ spec:
                   key: POSTGRESS_HOST
             - name: POSTGRESS_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: env-config
+                secretKeyRef:
+                  name: env-secret
                   key: POSTGRESS_PASSWORD
             - name: POSTGRESS_USERNAME
               valueFrom:
-                configMapKeyRef:
-                  name: env-config
+                secretKeyRef:
+                  name: env-secret
                   key: POSTGRESS_USERNAME
       restartPolicy: Always
+      volumes:
+        - name: aws-secret
+          secret:
+            secretName: aws-secret
